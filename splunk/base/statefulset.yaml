@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: splunk
+spec:
+  serviceName: splunk
+  replicas: 1
+  selector:
+    matchLabels:
+      app: splunk
+  template:
+    metadata:
+      labels:
+        app: splunk
+    spec:
+      containers:
+        - name: splunk
+          image: splunk/splunk:9.2.0
+          ports:
+            - containerPort: 8000
+              name: web
+          env:
+            - name: SPLUNK_START_ARGS
+              value: "--accept-license"
+            - name: SPLUNK_PASSWORD
+              value: "DebugBuddy2026!"
+            - name: SPLUNK_GENERAL_TERMS
+              value: "yes"
+            - name: SPLUNK_BUILD_TYPE
+              value: "tar"
+          volumeMounts:
+            - name: splunk-data
+              mountPath: /opt/splunk/var
+  volumeClaimTemplates:
+    - metadata:
+        name: splunk-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
