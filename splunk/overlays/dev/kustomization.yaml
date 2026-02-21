@@ -24,10 +24,4 @@ patches:
       - op: replace
         path: /spec/ports/0/targetPort
         value: 8000
-  - target:
-      kind: StatefulSet
-      name: splunk
-    patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 2
+  
