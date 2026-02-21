@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: splunk-prod
+  namespace: argocd
+  labels:
+    env: prod
+spec:
+  project: splunk-prod
+  source:
+    repoURL: https://github.com/sheltonlarry26-code/splunk-k8s-gitops.git
+    targetRevision: main
+    path: splunk/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: splunk-dev
